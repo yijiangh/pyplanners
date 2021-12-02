@@ -56,16 +56,18 @@ class Operator(PartialState):
         return self.__class__.__name__ + str_object(self.args)
     __repr__ = __str__
 
-class Action(Operator): 
+class Action(Operator):
     cost = 1 # TODO: cost function
-class Axiom(Operator): 
+class Axiom(Operator):
     cost = 0
 
 ###########################################################################
 
 def derive_state(state, axioms):
     # TODO: assumes there isn't any contradiction
+    # ! unprocessed_axiom_from_literal
     unprocessed = defaultdict(list)
+    # ! unstaisfied_num_conditions_from_axiom
     unsatisfied = {}
     for axiom in axioms:
         unsatisfied[axiom] = len(axiom.conditions)

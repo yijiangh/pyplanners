@@ -51,8 +51,9 @@ def a_star_search(start, goal, generator, priority, stack=False, debug=None, **k
                 queue.decrease_key(priority(nv), nv)
     return space.failure()
 
-def best_first_search(start, goal, generator, priority, stack=False, lazy=True, debug=None, **kwargs):
-    space = StateSpace(generator, start, max_extensions=INF, **kwargs) # TODO: max_extensions=1 can fail when test
+
+def best_first_search(initial, goal, generator, priority, stack=False, lazy=True, debug=None, **kwargs):
+    space = StateSpace(generator, initial, max_extensions=INF, **kwargs) # TODO: max_extensions=1 can fail when test
     sv = space.root
     sv.generate()
     if sv.is_dead_end(): # tests for an infinite (safe) heuristic value
@@ -67,10 +68,12 @@ def best_first_search(start, goal, generator, priority, stack=False, lazy=True, 
             debug(cv)
         if test_goal(cv, goal):
             return space.solution(cv)
+        # ! state_space expansion happened here
         successors = list(cv.unexplored())
         if not cv.enumerated():
             successors.append(cv)
         for nv in order_successors(successors, stack):
+            # ! operator generation called here
             nv.evaluate() # nv.generate() # Also evaluates the h_cost
             if (not nv.is_dead_end()) and (lazy or test_parent_operator(nv)):
                 queue.push(priority(nv), nv)

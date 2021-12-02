@@ -77,9 +77,18 @@ def derive_predicates(state, axioms):
   if not axioms:
     return state, []
   is_strips = 'strips' in axioms[0].__class__.__module__ # TODO: clean this up
+
+  axiom_from_layer = {}
+  for ax in axioms:
+    layer = ax.layer if hasattr(ax, 'layer') else 0
+    axiom_from_layer.setdefault(layer, []).append(ax)
+
   if is_strips:
     from strips.operators import derive_state
-    return derive_state(state, axioms)
+    for layer in sorted(axiom_from_layer):
+        state, _ = derive_state(state, axiom_from_layer[layer])
+    return state, _
+
   return derive_predicates_slow(state, axioms)
 
 ###########################################################################

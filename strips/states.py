@@ -47,6 +47,8 @@ class State(object):
     def identity(self):
         return self.__class__, frozenset(self.__dict__.items())
     def holds(self, literal):
+        # if negated atom (True), then its positive must not be in the state (True)
+        # if normal(non-negated) atom (False), its positive must be in the state (False)
         return literal.negated == (literal.positive() not in self.atoms)
     __contains__ = holds
     def __iter__(self):

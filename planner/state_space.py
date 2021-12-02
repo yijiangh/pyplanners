@@ -284,7 +284,7 @@ class StateSpace(object):
         if (vertex.cost + operator.cost <= self.max_cost) \
                 and (vertex.length + len(operator) <= self.max_length) \
                 and vertex.contained(operator):
-            #if vertex.state in operator:
+                # and operator.contains(vertex.state):
             if self.axioms:
                 assert not isinstance(operator, MacroOperator)
                 sink_state = operator.apply(vertex.state) # TODO - this won't work for MacroOperators yet?
