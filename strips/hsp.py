@@ -12,6 +12,11 @@ def compute_costs(state, goal, operators, op=max, unit=False):
         for literal in operator.conditions:
             unprocessed[literal].append(operator)
 
+    # ! Check here for the clamp precondition
+    # compare with the initial state
+    # precondition check
+    # maybe put layering axioms or negated assumption
+
     literal_costs = {literal: Pair(0, 0) for literal in unprocessed if literal in state}
     operator_costs = {}
     queue = [(pair.cost, literal) for literal, pair in literal_costs.items()]

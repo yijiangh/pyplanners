@@ -75,7 +75,8 @@ def single_generator(goal, operators, axioms, combined_fn):
         # TODO: a generator that regrounds at each state based on the current static facts
         state = vertex.state # TODO: might not be sufficient action applicability
         #state = vertex.derived_state # NOTE: not "safe" (might falsely have infinite cost)
-        heuristic, helpful_actions = combined_fn(state, goal, operators + axioms)
+        # heuristic, helpful_actions = combined_fn(state, goal, operators + axioms)
+        heuristic, helpful_actions = combined_fn(vertex.derived_state, goal, operators + axioms)
         #helpful_actions = list(filter(lambda op: op not in axioms, helpful_actions))
         helpful_actions = filter_axioms(helpful_actions)
         # NOTE - the first_actions should be anything applicable in derived_state
@@ -115,7 +116,8 @@ HEURISTICS = {
 SUCCESSORS = {
     'all': ha_all, # ha_all | ha_applicable
     'random': ha_random,
-    #'ff': first_goals, # first_operators # TODO: make a wrapper
+    # 'first_goals': first_goals, # first_operators # TODO: make a wrapper
+    # 'first_operators' : first_operators,
 }
 
 ###########################################################################

@@ -146,6 +146,7 @@ class Vertex(object):
             self.generator = None
             return False
         if (self.state_space.best_h is None) or (self.h_cost < self.state_space.best_h):
+            # print(self.state)
             self.state_space.best_h = self.h_cost
             self.state_space.dump()
         self.operators.extend(operators)
