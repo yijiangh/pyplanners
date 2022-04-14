@@ -73,10 +73,9 @@ def single_generator(goal, operators, axioms, combined_fn):
     #return lambda v: (yield combined_fn(v.state, goal, operators))
     def generator(vertex):
         # TODO: a generator that regrounds at each state based on the current static facts
-        state = vertex.state # TODO: might not be sufficient action applicability
-        #state = vertex.derived_state # NOTE: not "safe" (might falsely have infinite cost)
-        # heuristic, helpful_actions = combined_fn(state, goal, operators + axioms)
-        heuristic, helpful_actions = combined_fn(vertex.derived_state, goal, operators + axioms)
+        # state = vertex.state # TODO: might not be sufficient action applicability
+        state = vertex.derived_state # NOTE: not "safe" (might falsely have infinite cost)
+        heuristic, helpful_actions = combined_fn(state, goal, operators + axioms)
         #helpful_actions = list(filter(lambda op: op not in axioms, helpful_actions))
         helpful_actions = filter_axioms(helpful_actions)
         # NOTE - the first_actions should be anything applicable in derived_state
@@ -131,6 +130,7 @@ def lookup_heuristic(heuristic):
 
 def solve_strips(initial, goal, operators, axioms=[], search='eager', evaluator='greedy',
                  heuristic='ff', successors='all', **kwargs):
+    # returns: `planner.state_space.Solution`
     print('Initial: {}\nGoal: {}\nActions: {} | Axioms: {}'.format(initial, goal, len(operators), len(axioms)))
     print('Search: {} | Evaluator: {} | Heuristic: {} | Successors: {}'.format(search, evaluator, heuristic, successors))
     print(SEPARATOR)

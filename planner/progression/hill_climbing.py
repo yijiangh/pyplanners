@@ -19,7 +19,7 @@ strategies = enum('LOCAL', 'REVERSE', 'START', 'SEQUENCE')
 
 
 def hill_climbing_search(start, goal, generator, _, cost_step=1, strategy=strategies.LOCAL, recurrence=1, steepest=True,
-                         debug=INF, **kwargs):
+                         debug=None, **kwargs):
     space = StateSpace(generator, start, INF, **kwargs)  # NOTE - max_extensions needs to be INF
 
     def negative_gradient(cost1, cost2):
